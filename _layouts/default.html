@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="{{ site.lang | default: "en-US" }}">
+<head>
+    <meta charset="UTF-8">
+
+    {% seo %}
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#157878">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="stylesheet" href="{{ '/assets/css/style.css?v=' | append: site.github.build_revision | relative_url }}">
+
+    <script>
+        function calculate() {
+            var fs = document.getElementById('fileSize').value;
+            var ds = document.getElementById('downloadSpeed').value;
+            var fu = document.getElementById("fileUnit");
+            var fileUnit = fu.options[fu.selectedIndex].value;
+            var du = document.getElementById("downloadUnit");
+            var downloadUnit = du.options[du.selectedIndex].value;
+
+            var fileSize = fs * Math.pow(1000, fileUnit);
+            var downloadSpeed = ds * Math.pow(1000, downloadUnit);
+
+            var dsecs = fileSize / downloadSpeed;
+            var dmins = Math.floor(dsecs / 60);
+            var dhours = Math.floor(dmins / 60);
+            var ddays = Math.floor(dhours / 24);
+
+            dsecs -= dmins * 60;
+            dmins -= dhours * 60;
+            dhours -= ddays * 24;
+
+            var result = "";
+            var draw = false;
+
+            if (ddays > 0) draw = true;
+
+            if (draw) {
+                if (ddays !== 1) {
+                    result += ddays + " Days ";
+                } else {
+                    result += ddays + " Day ";
+                }
+            }
+
+            if (dhours > 0) draw = true;
+
+            if (draw) {
+                if (dhours !== 1) {
+                    result += dhours + " Hours ";
+                } else {
+                    result += dhours + " Hour ";
+
+                }
+            }
+
+            if (dmins > 0) draw = true;
+
+            if (draw) {
+                if (dmins !== 1) {
+                    result += dmins + " Minutes ";
+                } else {
+                    result += dmins + " Minute ";
+
+                }
+            }
+
+            dsecs = Math.round(dsecs);
+            if (dsecs !== 1) {
+                result += dsecs + " Seconds";
+            } else {
+                result += dsecs + " Second";
+
+            }
+
+            document.getElementById("result").innerHTML = result;
+        }
+    </script>
+
+</head>
+<body>
+
+<header class="page-header" role="banner">
+    <h1 class="project-name">{{ page.title | default: site.title | default: site.github.repository_name }}</h1>
+    <h2 class="project-tagline">{{ page.description | default: site.description | default: site.github.project_tagline }}</h2>
+</header>
+
+<main id="content" class="main-content" role="main">
+
+    <p>File size: <input type="number" size="3" min="0" max="99999" id="fileSize" onkeyup="calculate()"> <select id="fileUnit" onchange="calculate()">
+        <option value="0">KB</option>
+        <option value="1">MB</option>
+        <option value="2" selected>GB</option>
+        <option value="3">TB</option>
+    </select></p>
+    <p>Download speed: <input type="number" size="3" min="0" max="99999" id="downloadSpeed" onkeyup="calculate()"> <select id="downloadUnit" onchange="calculate()">
+        <option value="0">KB/s</option>
+        <option value="1" selected>MB/s</option>
+        <option value="2">GB/s</option>
+        <option value="3">TB/s</option>
+    </select></p>
+    <button onclick="calculate();">Calculate</button>
+
+    <p id="result"></p>
+
+    <footer class="site-footer">
+        {% if site.github.is_project_page %}
+        <span class="site-footer-owner">&copy; 2019<script>new Date().getFullYear()>2019&&document.write("-"+new Date().getFullYear());</script> <a href="{{ site.github.owner_url }}">{{ site.github.owner_name }}</a> - All rights reserved.</span>
+        {% endif %}
+        <span class="site-footer-credits">Design by <a href="https://github.com/pages-themes/cayman">GitHub Pages</a>.</span>
+    </footer>
+</main>
+</body>
+</html>
