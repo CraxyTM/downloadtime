@@ -77,6 +77,13 @@
         }
     </script>
 
+    <style>
+        .calculator {
+            width: 50%;
+            margin: auto;
+        }
+    </style>
+
 </head>
 <body>
 
@@ -86,6 +93,8 @@
 </header>
 
 <main id="content" class="main-content" role="main">
+
+    <div class="calculator">
 
     <p>File size: <input type="number" size="3" min="0" max="99999" id="fileSize" onkeyup="calculate()"> <select id="fileUnit" onchange="calculate()">
         <option value="0">KB</option>
@@ -102,6 +111,8 @@
     <button onclick="calculate();">Calculate</button>
 
     <p id="result"></p>
+
+    </div>
 
     <footer class="site-footer">
         {% if site.github.is_project_page %}
